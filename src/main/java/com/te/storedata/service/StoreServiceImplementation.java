@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.opencsv.CSVReader;
-import com.te.storedata.Exception.CustomException;
+import com.te.storedata.exceptions.CustomException;
 import com.te.storedata.pojo.Store;
 
 @Service
@@ -71,6 +71,8 @@ public class StoreServiceImplementation implements StoreService {
 				sort = (a, b) -> a.getCity().compareTo(b.getCity());
 			} else if (field.equalsIgnoreCase("date")) {
 				sort = (a, b) -> a.getOpenedDate().compareTo(b.getOpenedDate());
+			}else {
+				throw new CustomException("Provide proper field!!!");
 			}
 			Collections.sort(list, sort);
 			return list;

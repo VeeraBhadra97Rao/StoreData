@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.te.storedata.model.ResponseModel;
 import com.te.storedata.pojo.Store;
 import com.te.storedata.service.StoreService;
 
@@ -55,14 +56,16 @@ class StoreControllerTest {
 		store.setAddress("krt");
 		store.setOpenedDate(date);
 
+		ResponseModel model = new ResponseModel(false, "data found", mapper.writeValueAsString(store));
+
 		when(service.getStoreById(Mockito.anyString())).thenReturn(store);
 
 		String contentAsString = mockmvc
-				.perform(get("/api/v1/store/getStoreById/12").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.perform(get("/api/v1/store/12").contentType(MediaType.APPLICATION_JSON_VALUE)
 						.content(mapper.writeValueAsString(store)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-
-		assertEquals(store, mapper.readValue(contentAsString, Store.class));
+		ResponseModel responseModel = mapper.readValue(contentAsString, ResponseModel.class);
+		assertEquals(model.getMessage(), responseModel.getMessage());
 	}
 
 	@Test
@@ -77,14 +80,16 @@ class StoreControllerTest {
 
 		list.add(store);
 
+		ResponseModel model = new ResponseModel(false, "data found", list);
+		
 		when(service.getStoresByCity(Mockito.anyString())).thenReturn(list);
 
 		String contentAsString = mockmvc
-				.perform(get("/api/v1/store/getStoresByField/city").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.perform(get("/api/v1/stores/city").contentType(MediaType.APPLICATION_JSON_VALUE)
 						.content(mapper.writeValueAsString(store)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
-		assertEquals(mapper.writeValueAsString(list), contentAsString);
+		assertEquals(mapper.writeValueAsString(model), contentAsString);
 	}
 
 }
