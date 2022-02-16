@@ -4,14 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.catalina.mapper.Mapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,17 +54,17 @@ class StoreControllerTest {
 		store.setCity("bangalore");
 		store.setAddress("krt");
 		store.setOpenedDate(date);
-		
+
 		when(service.getStoreById(Mockito.anyString())).thenReturn(store);
 
 		String contentAsString = mockmvc
-				.perform(get("/getStoreById/12").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.perform(get("/api/v1/store/getStoreById/12").contentType(MediaType.APPLICATION_JSON_VALUE)
 						.content(mapper.writeValueAsString(store)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
-		assertEquals(store, mapper.readValue(contentAsString,Store.class));
+		assertEquals(store, mapper.readValue(contentAsString, Store.class));
 	}
-	
+
 	@Test
 	void getStoresByCityTest() throws UnsupportedEncodingException, Exception {
 
@@ -79,11 +76,11 @@ class StoreControllerTest {
 		store.setAddress("krt");
 
 		list.add(store);
-		
+
 		when(service.getStoresByCity(Mockito.anyString())).thenReturn(list);
-		
+
 		String contentAsString = mockmvc
-				.perform(get("/getStoresByField/city").contentType(MediaType.APPLICATION_JSON_VALUE)
+				.perform(get("/api/v1/store/getStoresByField/city").contentType(MediaType.APPLICATION_JSON_VALUE)
 						.content(mapper.writeValueAsString(store)))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 

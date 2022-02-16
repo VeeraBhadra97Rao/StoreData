@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,6 @@ import com.te.storedata.pojo.Store;
 @Service
 public class StoreServiceImplementation implements StoreService {
 
-	
 	public Store getStoreById(String storeId) {
 		int count = 0;
 		Store store = new Store();
@@ -68,13 +68,9 @@ public class StoreServiceImplementation implements StoreService {
 			}
 			Comparator<Store> sort = null;
 			if (field.equalsIgnoreCase("city")) {
-				sort = (a, b) -> {
-					return a.getCity().compareTo(b.getCity());
-				};
+				sort = (a, b) -> a.getCity().compareTo(b.getCity());
 			} else if (field.equalsIgnoreCase("date")) {
-				sort = (a, b) -> {
-					return a.getOpenedDate().compareTo(b.getOpenedDate());
-				};
+				sort = (a, b) -> a.getOpenedDate().compareTo(b.getOpenedDate());
 			}
 			Collections.sort(list, sort);
 			return list;

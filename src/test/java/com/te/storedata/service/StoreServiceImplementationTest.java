@@ -18,9 +18,9 @@ import com.te.storedata.pojo.Store;
 
 @ExtendWith(MockitoExtension.class)
 class StoreServiceImplementationTest {
-	
+
 	CSVReader reader;
-	
+
 	@InjectMocks
 	private StoreServiceImplementation service;
 

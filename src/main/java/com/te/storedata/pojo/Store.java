@@ -1,4 +1,5 @@
 package com.te.storedata.pojo;
+
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,5 @@ public class Store {
 	private String city;
 	private String address;
 	private Date openedDate;
-	
-	
 
 }
